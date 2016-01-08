@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Users list</h1>
+
+    <table class="table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                  <th>Password</th>
+                  <th>Salt</th>
+                {% endif %}
+                <th>Mail</th>
+                <th>Roles</th>
+                {% if is_granted('ROLE_BLOGGER') %}
+                  <th>Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for users in users %}
+            <tr>
+                <td><a href="{{ path('users_show', { 'id': users.id }) }}">{{ users.id }}</a></td>
+                <td><a href="{{ path('users_profile', { 'id': users.id })}}">{{ users.username }}</a></td>
+                {% if is_granted('ROLE_ADMIN') %}
+                  <td>{{ users.password }}</td>
+                  <td>{{ users.salt }}</td>
+                {% endif %}
+                <td>{{ users.mail }}</td>
+                <td>{% if users.roles %}{{ users.roles|join(', ') }}{% endif %}</td>
+
+                <td>
+                  {% if is_granted('edit', users) %}
+                    <ul>
+                        <li>
+                            <a href="{{ path('users_show', { 'id': users.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('users_edit', { 'id': users.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <ul>
+        <li>
+            <a href="{{ path('users_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

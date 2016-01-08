@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    </head>
+    <body>
+      {% block button %}
+      {% if is_granted('ROLE_USER') %}
+      <a href="{{ path('logout') }}"> <button id="btn-login" class="btn btn-success">Logout</button>    </a>
+      {% else %}
+        <a href="{{ path('login') }}"> <button id="btn-login" class="btn btn-success">Login</button>    </a>
+      {% endif %}
+
+      {% endblock %}
+      {% block body %}
+      {% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
