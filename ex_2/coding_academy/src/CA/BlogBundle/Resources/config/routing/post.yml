@@ -1,0 +1,26 @@
+post_index:
+    path:     /
+    defaults: { _controller: "CABlogBundle:Post:index" }
+    methods:  GET
+
+post_new:
+    path:     /new
+    defaults: { _controller: "CABlogBundle:Post:new" }
+    methods:  [GET, POST]
+
+post_show:
+    path:     /{id}
+    requirements:
+      id: \d*
+    defaults: { _controller: "CABlogBundle:Post:show" }
+    methods:  GET
+
+post_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CABlogBundle:Post:edit" }
+    methods:  [GET, POST]
+
+post_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CABlogBundle:Post:delete" }
+    methods:  DELETE

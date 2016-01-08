@@ -1,0 +1,30 @@
+ca_blog_post:
+    resource: "@CABlogBundle/Resources/config/routing/post.yml"
+    prefix:   /post
+
+ca_blog_homepage:
+    path:     /
+    defaults: { _controller: CABlogBundle:Blog:index }
+
+index:
+    path:     /index
+    defaults: { _controller: CABlogBundle:Blog:index }
+
+login:
+    path:     /login
+    defaults: { _controller: CABlogBundle:Session:login }
+
+login_check:
+    path:     /login_check
+
+logout:
+    path:     /logout
+
+ca_blog_users:
+        resource: "@CABlogBundle/Resources/config/routing/users.yml"
+        prefix:   /users
+
+users_new:
+    path:     /register
+    defaults: { _controller: "CABlogBundle:Users:new" }
+    methods:  [GET, POST]
