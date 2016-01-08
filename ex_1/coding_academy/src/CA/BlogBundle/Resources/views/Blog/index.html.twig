@@ -1,0 +1,21 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}CABlogBundle:Blog:index{% endblock %}
+
+{% block body %}
+<div class=”post”>
+<h1>INDEX</h1>
+{% for post in posts|reverse(true)|slice(0,10) %}
+
+<p><a href="{{ path('post_show', { 'id': post.id }) }}"> {{ post.title }} </a>
+{% if post.created %}{{ post.created|date('Y-m-d H:i:s') }}{% endif %} by
+{% if post.user is empty %}Anonymous</p>
+{% else %}<a href="{{ path('users_profile', { 'id': post.user.id }) }}">{{post.user.username}}</a>{% endif %}
+
+<p>{{ post.content }}</p>
+<br>
+
+{% endfor %}
+
+</div>
+{% endblock %}
