@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Post list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Created</th>
+                <th>Updated</th>
+                {% if is_granted('ROLE_BLOGGER') %}
+                <th>Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in posts|reverse(true) %}
+            <tr>
+                <td><a href="{{ path('post_show', { 'id': post.id }) }}">{{ post.id }}</a></td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.content }}</td>
+                <td>{% if post.created %}{{ post.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if post.updated %}{{ post.updated|date('Y-m-d H:i:s') }}{% endif %}</td>
+                {% if is_granted('ROLE_BLOGGER') %}
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('post_show', { 'id': post.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('post_edit', { 'id': post.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_BLOGGER') %}
+    <ul>
+        <li>
+            <a href="{{ path('post_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+    {% endif %}
+{% endblock %}

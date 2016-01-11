@@ -1,0 +1,58 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+
+
+
+security:
+
+    encoders:
+      CA\BlogBundle\Entity\Users:
+            algorithm: sha512
+
+    role_hierarchy:
+       ROLE_BLOGGER:      ROLE_USER
+       ROLE_ADMIN:       [ROLE_USER, ROLE_ADMIN, ROLE_BLOGGER]
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        our_db_provider:
+            entity:
+                class: CABlogBundle:Users
+                property: username
+
+    access_control:
+        - { path: ^/post/(\d*)/edit, roles: ROLE_BLOGGER }
+        - { path: ^/post/new, roles: ROLE_BLOGGER }
+        - { path: ^/users/(\d*)/edit, roles: ROLE_BLOGGER }
+        - { path: ^/users/(\d*)/delete, roles: ROLE_BLOGGER }
+
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            pattern:    ^/
+            http_basic: ~
+            provider: our_db_provider
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+                #always_remember_me: true
+            # activate different ways to authenticate
+
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            form_login:
+                default_target_path: /index
+                login_path: /login
+                check_path: /login_check
+            logout:
+                path:   logout
+                target: /login

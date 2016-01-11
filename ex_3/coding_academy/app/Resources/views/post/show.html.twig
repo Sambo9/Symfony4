@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class=”post”>
+<p>{{post.title}}
+{% if post.created %}{{ post.created|date('Y-m-d H:i:s') }}
+{% endif %} by
+{% if post.user is empty %}Anonymous</p>
+{% else %}<a href="{{ path('users_profile', { 'id': post.user.id }) }}">{{post.user.username}}</a>{% endif %}
+<p>{{ post.content }}</p>
+</div>
+
+    <ul>
+        <li>
+            <a href="{{ path('post_index') }}">Back to the list</a>
+        </li>
+        {% if is_granted('ROLE_USER') %}
+        <li>
+            <a href="{{ path('post_edit', { 'id': post.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+        {% endif %}
+    </ul>
+{% endblock %}
